@@ -1,10 +1,50 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
 import { MonitoringService } from './monitoring.service';
+import { LoggerModule } from 'nestjs-pino';
+import { HttpModule } from '@nestjs/axios';
+import {
+  Dialect,
+  Environment,
+  NodeDialectWalletAdapter,
+  SolanaNetwork,
+} from '@dialectlabs/sdk';
+import { DialectSdkDecorator } from './dialect-sdk.decorator';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
-  imports: [],
-  controllers: [AppController],
-  providers: [MonitoringService],
+  imports: [
+    HttpModule,
+    ConfigModule.forRoot(),
+    LoggerModule.forRoot({
+      pinoHttp: {
+        autoLogging: process.env.ENVIRONMENT !== 'production',
+        redact: ['req.headers'],
+        transport: {
+          target: 'pino-pretty',
+          options: {
+            colorize: process.env.ENVIRONMENT === 'local-development',
+            translateTime: true,
+            singleLine: true,
+            ignore: 'pid,hostname',
+          },
+        },
+      },
+    }),
+  ],
+  controllers: [],
+  providers: [
+    MonitoringService,
+    {
+      provide: DialectSdkDecorator,
+      useValue: Dialect.sdk({
+        environment: process.env.DIALECT_SDK_ENVIRONMENT as Environment,
+        solana: {
+          network: process.env.DIALECT_SDK_SOLANA_NETWORK_NAME as SolanaNetwork,
+          rpcUrl: process.env.DIALECT_SDK_SOLANA_RPC_URL,
+        },
+        wallet: NodeDialectWalletAdapter.create(),
+      }),
+    },
+  ],
 })
 export class MonitoringModule {}
