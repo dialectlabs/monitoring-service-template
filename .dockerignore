@@ -1,0 +1,12 @@
+Dockerfile
+.dockerignore
+node_modules
+dist
+deployment
+.git
+/.env
+/.env.prod
+/.env.dev
+/.env.local
+npm-debug.log
+env-dev-fb-admin-key.json
