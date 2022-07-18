@@ -8,5 +8,9 @@ deployment
 /.env.prod
 /.env.dev
 /.env.local
+/.env.local.client
+/local-development-keypair.passphrase
+/local-development-keypair.private
+/local-development-keypair.public
 npm-debug.log
 env-dev-fb-admin-key.json

@@ -5,7 +5,7 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "postinstall": "solana airdrop 0.5 5SVmPJUGtthMZNB77NggkanUd9f1NkLzeaDbabWFmdjV -u http://localhost:8899",
+    "postinstall": "chmod +x ./generate-local-development-keypair.sh && ./generate-local-development-keypair.sh",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -19,7 +19,7 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "client:start": "dotenv -e .env.client -- ts-node test/client.ts"
+    "client:start": "dotenv -e .env.local.client -- ts-node test/client.ts"
   },
   "dependencies": {
     "@dialectlabs/monitor": "^3.1.0",
