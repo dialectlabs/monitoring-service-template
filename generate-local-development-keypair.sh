@@ -12,7 +12,7 @@ if [ ! -f "$private_key_file" ]; then
   echo "DAPP_PRIVATE_KEY=${private_key}
 DAPP_PUBLIC_KEY=${public_key}" > .env.local.client
   echo "DIALECT_SDK_CREDENTIALS=${private_key}" > .env.local
+  solana airdrop 5 "$public_key" -u http://localhost:8899
 fi
 
-solana airdrop 1 "$public_key" -u http://localhost:8899
 
