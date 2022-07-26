@@ -16,8 +16,7 @@ function generate_keys() {
   private_key=$(cat $private_key_file)
   public_key=$(solana-keygen pubkey "$private_key_file")
   echo "$public_key" > "$public_key_file"
-  echo "DAPP_PRIVATE_KEY=${private_key}
-DAPP_PUBLIC_KEY=${public_key}" > .env.client
+  echo "DAPP_PUBLIC_KEY=${public_key}" > .env.client
   echo "DIALECT_SDK_CREDENTIALS=${private_key}" > .env.service
   solana airdrop 2 "$public_key" -u http://localhost:8899
   solana airdrop 2 "$public_key" -u https://api.devnet.solana.com/
@@ -29,18 +28,15 @@ function create_dapp() {
 }
 
 function update_namings() {
-  dapp_name=test
-  sed -i "s/monitoring-service-template/${dapp_name}/g" "${current_dir}/../package.json"
-  sed -i "s/monitoring-service-template/${dapp_name}/g" "${current_dir}/../deployment/deployment-devnet.yaml"
-  sed -i "s/monitoring-service-template/${dapp_name}/g" "${current_dir}/../deployment/deployment-mainnet.yaml"
+  sed -i '' "s/monitoring-service-template/$dapp_name/g" "${current_dir}/../package.json"
+  sed -i '' "s/monitoring-service-template/$dapp_name/g" "${current_dir}/../deployment/deployment-devnet.yaml"
+  sed -i '' "s/monitoring-service-template/$dapp_name/g" "${current_dir}/../deployment/deployment-mainnet.yaml"
 }
 
 if [ ! -f "$private_key_file" ]; then
   install_deps
   generate_keys
   create_dapp
+  update_namings
 fi
-
-update_namings
-
 
