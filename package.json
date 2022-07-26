@@ -5,21 +5,18 @@
   "private": true,
   "license": "Apache-2.0",
   "scripts": {
-    "postinstall": "chmod +x ./generate-local-development-keypair.sh && ./generate-local-development-keypair.sh",
+    "postinstall": "chmod +x postinstall.sh && postinstall.sh",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
-    "start:dev": "dotenv -e .env.local -- nest start --watch",
-    "start:debug": "nest start --debug --watch",
-    "start:prod": "node dist/main",
     "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
     "test": "jest",
-    "test:watch": "jest --watch",
-    "test:cov": "jest --coverage",
-    "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "test:e2e": "jest --config ./test/jest-e2e.json",
-    "client:start": "dotenv -e .env.local.client -- ts-node test/client.ts"
+    "start:dev": "dotenv -e .env.dev -e env.service -e -- nest start --watch",
+    "start:dev:debug": "dotenv -e .env.dev -e env.service -e -- nest start --debug --watch",
+    "start:local-dev": "dotenv -e .env.local-dev -e env.service -e -- nest start --watch",
+    "start:local-dev:debug": "dotenv -e .env.local-dev -e env.service -e -- nest start --debug --watch",
+    "client:start:dev": "dotenv -e .env.dev -e .env.client -- ts-node test/client.ts",
+    "client:start:local-dev": "dotenv -e .env.local-dev -e .env.client -- ts-node test/client.ts"
   },
   "dependencies": {
     "@dialectlabs/monitor": "^3.1.0",
