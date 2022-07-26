@@ -4,8 +4,8 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "16"
   labels:
-    app: monitoring-service-template-devnet # TODO: Change me
-  name: monitoring-service-template-devnet # TODO: Change me
+    app: monitoring-service-template-devnet
+  name: monitoring-service-template-devnet
   namespace: default
   resourceVersion: "65918483"
 spec:
@@ -14,7 +14,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: monitoring-service-template-devnet # TODO: Change me
+      app: monitoring-service-template-devnet
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -24,7 +24,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: monitoring-service-template-devnet # TODO: Change me
+        app: monitoring-service-template-devnet
     spec:
       containers:
         - env:
@@ -42,7 +42,7 @@ spec:
             - name: DIALECT_SDK_CREDENTIALS
               valueFrom:
                 secretKeyRef:
-                  key: monitoring-service-template_MESSAGING_PRIVATE_KEY_DEVNET # TODO: Change me
+                  key: monitoring-service-template_MESSAGING_PRIVATE_KEY_DEVNET
                   name: env-vars
             - name: TWILIO_ACCOUNT_SID
               valueFrom:
@@ -68,7 +68,7 @@ spec:
                 secretKeyRef:
                   key: TELEGRAM_TOKEN
                   name: env-vars
-          image: dialectlab/monitoring-service-template:0.1.0 # TODO: Change me
+          image: dialectlab/monitoring-service-template:0.1.0
           imagePullPolicy: Always
           name: monitoring-service-template-devnet
           resources: { }

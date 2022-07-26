@@ -14,7 +14,7 @@ spec:
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      app: monitoring-service-template-mainnet # TODO: Change me
+      app: monitoring-service-template-mainnet
   strategy:
     rollingUpdate:
       maxSurge: 25%
@@ -24,7 +24,7 @@ spec:
     metadata:
       creationTimestamp: null
       labels:
-        app: monitoring-service-template-mainnet # TODO: Change me
+        app: monitoring-service-template-mainnet
     spec:
       containers:
         - env:
@@ -42,7 +42,7 @@ spec:
             - name: DIALECT_SDK_CREDENTIALS
               valueFrom:
                 secretKeyRef:
-                  key: monitoring-service-template_MESSAGING_PRIVATE_KEY_DEVNET # TODO: Change me
+                  key: monitoring-service-template_MESSAGING_PRIVATE_KEY_DEVNET
                   name: env-vars
             - name: TWILIO_ACCOUNT_SID
               valueFrom:
