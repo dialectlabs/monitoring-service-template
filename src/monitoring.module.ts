@@ -8,7 +8,7 @@ import {
   NodeDialectWalletAdapter,
   SolanaNetwork,
 } from '@dialectlabs/sdk';
-import { DialectSdkDecorator } from './dialect-sdk.decorator';
+import { DialectSdk } from './dialect-sdk';
 import { ConfigModule } from '@nestjs/config';
 
 @Module({
@@ -35,7 +35,7 @@ import { ConfigModule } from '@nestjs/config';
   providers: [
     MonitoringService,
     {
-      provide: DialectSdkDecorator,
+      provide: DialectSdk,
       useValue: Dialect.sdk({
         environment: process.env.DIALECT_SDK_ENVIRONMENT as Environment,
         solana: {
