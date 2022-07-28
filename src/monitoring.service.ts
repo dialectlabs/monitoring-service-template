@@ -1,10 +1,10 @@
 import { Injectable, OnModuleInit } from '@nestjs/common';
-import { DialectSdkDecorator } from './dialect-sdk.decorator';
+import { DialectSdk } from './dialect-sdk';
 import { Monitors } from '@dialectlabs/monitor';
 
 @Injectable()
 export class MonitoringService implements OnModuleInit {
-  constructor(private readonly sdk: DialectSdkDecorator) {}
+  constructor(private readonly sdk: DialectSdk) {}
 
   onModuleInit() {
     Monitors.builder({
@@ -24,6 +24,5 @@ export class MonitoringService implements OnModuleInit {
         },
       },
     });
-    // Add monitoring service
   }
 }

@@ -35,10 +35,10 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json!/prisma/node_modules/
 
-/.env.prod
-/.env.dev
-/.env.local
-/.env.local.client
-/local-development-keypair.passphrase
-/local-development-keypair.private
-/local-development-keypair.public
+# env files
+/.env.service
+/.env.client
+# keypair
+/dev-keypair.passphrase
+/dev-keypair.private
+/dev-keypair.public

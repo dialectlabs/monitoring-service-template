@@ -1,19 +1,8 @@
-import { createClient, createDappIfAbsent } from '@dialectlabs/monitor';
-import { Backend, NodeDialectWalletAdapter } from '@dialectlabs/sdk';
-import { Keypair, PublicKey } from '@solana/web3.js';
+import { createClient } from '@dialectlabs/monitor';
+import { Backend, Environment } from '@dialectlabs/sdk';
+import { PublicKey } from '@solana/web3.js';
 
 const main = async (): Promise<void> => {
-  const dappPrivateKeyFromEnv = process.env.DAPP_PRIVATE_KEY;
-  if (dappPrivateKeyFromEnv) {
-    const dappKeyPair: Keypair = Keypair.fromSecretKey(
-      new Uint8Array(JSON.parse(dappPrivateKeyFromEnv)),
-    );
-    await createDappIfAbsent('Monitoring service client', {
-      wallet: NodeDialectWalletAdapter.create(dappKeyPair),
-      environment: 'local-development',
-      backends: [Backend.DialectCloud],
-    });
-  }
   const dappPublicKeyFromEnv = process.env.DAPP_PUBLIC_KEY;
   if (!dappPublicKeyFromEnv) {
     return;
@@ -27,14 +16,7 @@ async function startClients(dappPublicKeyFromEnv: string) {
     await Promise.all([
       createClient(
         {
-          environment: 'local-development',
-          backends: [Backend.Solana],
-        },
-        dappPublicKey,
-      ),
-      createClient(
-        {
-          environment: 'local-development',
+          environment: process.env.DIALECT_SDK_ENVIRONMENT as Environment,
           backends: [Backend.DialectCloud],
         },
         dappPublicKey,
