@@ -1,5 +1,10 @@
-import { DialectSdk as IDialectSdk } from '@dialectlabs/sdk/lib/types/sdk/sdk.interface';
-import { Dapps, DialectSdkInfo, Messaging, Wallets } from '@dialectlabs/sdk';
+import {
+  Dapps,
+  DialectSdk as IDialectSdk,
+  DialectSdkInfo,
+  Messaging,
+  Wallets,
+} from '@dialectlabs/sdk';
 
 export abstract class DialectSdk implements IDialectSdk {
   readonly dapps: Dapps;

@@ -28,9 +28,9 @@ spec:
     spec:
       containers:
         - env:
-            - name: ENVIROMENT
+            - name: ENVIRONMENT
               value: 'development'
-            - name: DIALECT_SDK_ENVIROMENT
+            - name: DIALECT_SDK_ENVIRONMENT
               value: 'development'
             - name: DIALECT_SDK_SOLANA_NETWORK_NAME
               value: 'devnet'
