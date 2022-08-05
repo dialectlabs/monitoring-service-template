@@ -47,4 +47,4 @@ import { ConfigModule } from '@nestjs/config';
     },
   ],
 })
-export class MonitoringModule {}
+export class AppModule {}
