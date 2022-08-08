@@ -10,9 +10,12 @@ import {
 } from '@dialectlabs/sdk';
 import { DialectSdk } from './dialect-sdk';
 import { ConfigModule } from '@nestjs/config';
+import { TerminusModule } from '@nestjs/terminus';
+import { HealthController } from './health.controller';
 
 @Module({
   imports: [
+    TerminusModule,
     HttpModule,
     ConfigModule.forRoot(),
     LoggerModule.forRoot({
@@ -31,7 +34,7 @@ import { ConfigModule } from '@nestjs/config';
       },
     }),
   ],
-  controllers: [],
+  controllers: [HealthController],
   providers: [
     MonitoringService,
     {

@@ -25,6 +25,7 @@
     "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/terminus": "^9.1.0",
     "bn.js": "^5.2.1",
     "luxon": "^3.0.1",
     "nestjs-pino": "^2.6.0",
