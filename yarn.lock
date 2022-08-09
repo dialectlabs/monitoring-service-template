@@ -337,12 +337,12 @@
   dependencies:
     "@jridgewell/trace-mapping" "0.3.9"
 
-"@dialectlabs/monitor@^3.3.0":
-  version "3.3.0"
-  resolved "https://registry.yarnpkg.com/@dialectlabs/monitor/-/monitor-3.3.0.tgz#c7d3969ea73d4b851ff43b22e56c4533f5c135a3"
-  integrity sha512-NjGAEQScvnh/IzcMw40gP4hOhcJ1vp9G2Po31SVO4UpIw9zk0cS7oV1bCIIg4NyaI3qa+DPzy3dWJLwlorueyA==
+"@dialectlabs/monitor@^3.3.2":
+  version "3.3.2"
+  resolved "https://registry.yarnpkg.com/@dialectlabs/monitor/-/monitor-3.3.2.tgz#c472e25a44165286ec5797b0ee3e2c4480373c50"
+  integrity sha512-uLaY5ybjgRG6Kecx05mMjxGlRerfPZM+6h/E7rlt+Kzp0XTufi4J7aw4EwPiQb0eNNBnQpJBja96qLoj2UDcPQ==
   dependencies:
-    "@dialectlabs/sdk" "^0.4.10"
+    "@dialectlabs/sdk" "^0.5.1"
     "@dialectlabs/web3" "^0.3.2"
     "@project-serum/anchor" "0.23.0"
     "@sendgrid/mail" "^7.6.2"
@@ -353,10 +353,26 @@
     telegraf "^4.7.0"
     twilio "^3.76.1"
 
-"@dialectlabs/sdk@^0.4.10":
-  version "0.4.10"
-  resolved "https://registry.yarnpkg.com/@dialectlabs/sdk/-/sdk-0.4.10.tgz#dd4c51413a4ddcdab39a1ed206e109071ffafc8a"
-  integrity sha512-zqvbve9JxpimmeHD8PRlOPVB+kQry2w5dEe6XhMLiGoLPlSIq8oeNaJGo/D7AHw5aJZ7Lmh1SvtWNapXUHbVMA==
+"@dialectlabs/sdk@^0.5.1":
+  version "0.5.1"
+  resolved "https://registry.yarnpkg.com/@dialectlabs/sdk/-/sdk-0.5.1.tgz#32dc66c1ec807c1642035ff49d11e800e8ffa744"
+  integrity sha512-mMY+R7z2uY8/o/e0fyv1kv4nRFzXl1ixVpRUYpy46Fp04fEFKAzDoxntQoPUNlQePbf4ewKf9sNZMnTYez8aTA==
+  dependencies:
+    "@dialectlabs/web3" "^0.3.2"
+    "@project-serum/anchor" "0.23.0"
+    "@solana/wallet-adapter-base" "^0.9.5"
+    "@solana/web3.js" "^1.22.0"
+    "@stablelib/base64" "^1.0.1"
+    axios "^0.27.2"
+    ed2curve "^0.3.0"
+    luxon "^2.4.0"
+    nanoid "^3.3.4"
+    tweetnacl "^1.0.3"
+
+"@dialectlabs/sdk@^0.6.1":
+  version "0.6.1"
+  resolved "https://registry.yarnpkg.com/@dialectlabs/sdk/-/sdk-0.6.1.tgz#016ea7ed5f5069a6b3bf916dc60c8783fe65489f"
+  integrity sha512-30lxZcFbKKbUXuMuBPmBcv6FpkAvZoW1NFSuCtyD8WUpJ++SupigVB27CdOhedAQWqgr0/r9cMYVdoLIr/4pYg==
   dependencies:
     "@dialectlabs/web3" "^0.3.2"
     "@project-serum/anchor" "0.23.0"
@@ -2352,7 +2368,17 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
-dotenv-expand@8.0.3:
+dotenv-cli@^6.0.0:
+  version "6.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-6.0.0.tgz#8a30cbc59d0a8aaa166b2fee0a9a55e23a1223ab"
+  integrity sha512-qXlCOi3UMDhCWFKe0yq5sg3X+pJAz+RQDiFN38AMSbUrnY3uZshSfDJUAge951OS7J9gwLZGfsBlWRSOYz/TRg==
+  dependencies:
+    cross-spawn "^7.0.3"
+    dotenv "^16.0.0"
+    dotenv-expand "^8.0.1"
+    minimist "^1.2.5"
+
+dotenv-expand@8.0.3, dotenv-expand@^8.0.1:
   version "8.0.3"
   resolved "https://registry.yarnpkg.com/dotenv-expand/-/dotenv-expand-8.0.3.tgz#29016757455bcc748469c83a19b36aaf2b83dd6e"
   integrity sha512-SErOMvge0ZUyWd5B0NXMQlDkN+8r+HhVUsxgOO7IoPDOdDRD2JjExpN6y3KnFR66jsJMwSn1pqIivhU5rcJiNg==
@@ -2362,7 +2388,7 @@ dotenv@10.0.0:
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-10.0.0.tgz#3d4227b8fb95f81096cdd2b66653fb2c7085ba81"
   integrity sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==
 
-dotenv@16.0.1:
+dotenv@16.0.1, dotenv@^16.0.0:
   version "16.0.1"
   resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-16.0.1.tgz#8f8f9d94876c35dac989876a5d3a82a267fdce1d"
   integrity sha512-1K6hR6wtk2FviQ4kEiSjFiH5rpzEVi8WW0x96aztHVMhEspNpc4DVOUTEHtEva5VThQ8IaBX1Pe4gSzpVVUsKQ==
@@ -4131,7 +4157,7 @@ minimatch@^5.0.1:
   dependencies:
     brace-expansion "^2.0.1"
 
-minimist@^1.2.0, minimist@^1.2.6:
+minimist@^1.2.0, minimist@^1.2.5, minimist@^1.2.6:
   version "1.2.6"
   resolved "https://registry.yarnpkg.com/minimist/-/minimist-1.2.6.tgz#8637a5b759ea0d6e98702cfb3a9283323c93af44"
   integrity sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==
