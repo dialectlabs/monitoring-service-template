@@ -369,10 +369,10 @@
     nanoid "^3.3.4"
     tweetnacl "^1.0.3"
 
-"@dialectlabs/sdk@^0.6.1":
-  version "0.6.1"
-  resolved "https://registry.yarnpkg.com/@dialectlabs/sdk/-/sdk-0.6.1.tgz#016ea7ed5f5069a6b3bf916dc60c8783fe65489f"
-  integrity sha512-30lxZcFbKKbUXuMuBPmBcv6FpkAvZoW1NFSuCtyD8WUpJ++SupigVB27CdOhedAQWqgr0/r9cMYVdoLIr/4pYg==
+"@dialectlabs/sdk@^0.6.2":
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/@dialectlabs/sdk/-/sdk-0.6.2.tgz#48c87e4230bbf0d73a5a242edd6183bcc10aebed"
+  integrity sha512-iaY+wFI3bhllu/dyFLXrRnZLSrvUGqeBFGFv+3xN45LI+zS3gkJuocjtI/twWeXzu76KhvNfM8ZO02Yaetw9gw==
   dependencies:
     "@dialectlabs/web3" "^0.3.2"
     "@project-serum/anchor" "0.23.0"
