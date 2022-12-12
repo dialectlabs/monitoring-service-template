@@ -1,14 +1,21 @@
 import { Module } from '@nestjs/common';
 import { MonitoringService } from './monitoring.service';
 import { LoggerModule } from 'nestjs-pino';
-import { HttpModule } from '@nestjs/axios';
+import { HttpModule } from '@nestjs/axios';// Common imports
 import {
   Dialect,
+  DialectCloudEnvironment,
+  DialectSdk,
   Environment,
-  NodeDialectWalletAdapter,
-  SolanaNetwork,
 } from '@dialectlabs/sdk';
-import { DialectSdk } from './dialect-sdk';
+
+// Solana-specific imports
+import {
+  Solana,
+  SolanaSdkFactory,
+  NodeDialectSolanaWalletAdapter
+} from '@dialectlabs/blockchain-sdk-solana';
+//import { DialectSdk } from './dialect-sdk';
 import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health.controller';
@@ -38,15 +45,17 @@ import { HealthController } from './health.controller';
   providers: [
     MonitoringService,
     {
-      provide: DialectSdk,
-      useValue: Dialect.sdk({
-        environment: process.env.DIALECT_SDK_ENVIRONMENT as Environment,
-        solana: {
-          network: process.env.DIALECT_SDK_SOLANA_NETWORK_NAME as SolanaNetwork,
-          rpcUrl: process.env.DIALECT_SDK_SOLANA_RPC_URL,
+      provide: DialectSdk<Solana>,
+      useValue: Dialect.sdk(
+        {
+          environment: process.env.DIALECT_SDK_ENVIRONMENT as Environment,
         },
-        wallet: NodeDialectWalletAdapter.create(),
-      }),
+        SolanaSdkFactory.create({
+          // IMPORTANT: must set environment variable DIALECT_SDK_CREDENTIALS
+          // to your dapp's Solana messaging wallet keypair e.g. [170,23, . . . ,300]
+          wallet: NodeDialectSolanaWalletAdapter.create(),
+        }),
+      ),
     },
   ],
 })
