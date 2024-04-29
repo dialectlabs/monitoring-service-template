@@ -1,27 +1,24 @@
 import { Module } from '@nestjs/common';
-import { MonitoringService } from './monitoring.service';
 import { LoggerModule } from 'nestjs-pino';
-import { HttpModule } from '@nestjs/axios';// Common imports
-import {
-  Dialect,
-  DialectCloudEnvironment,
-  DialectSdk,
-  Environment,
-} from '@dialectlabs/sdk';
+import { HttpModule } from '@nestjs/axios';
+import { Dialect, DialectSdk, Environment } from '@dialectlabs/sdk';
 
-// Solana-specific imports
 import {
+  NodeDialectSolanaWalletAdapter,
   Solana,
   SolanaSdkFactory,
-  NodeDialectSolanaWalletAdapter
 } from '@dialectlabs/blockchain-sdk-solana';
-//import { DialectSdk } from './dialect-sdk';
 import { ConfigModule } from '@nestjs/config';
 import { TerminusModule } from '@nestjs/terminus';
 import { HealthController } from './health.controller';
+import { TokenMetadataService } from './token-metadata.service';
+import { ScheduleModule } from '@nestjs/schedule';
+import { MonitoringService } from './monitoring.service';
+import { ExampleDataSource } from './example-data-source';
 
 @Module({
   imports: [
+    ScheduleModule.forRoot(),
     TerminusModule,
     HttpModule,
     ConfigModule.forRoot(),
@@ -43,6 +40,8 @@ import { HealthController } from './health.controller';
   ],
   controllers: [HealthController],
   providers: [
+    TokenMetadataService,
+    ExampleDataSource,
     MonitoringService,
     {
       provide: DialectSdk<Solana>,
