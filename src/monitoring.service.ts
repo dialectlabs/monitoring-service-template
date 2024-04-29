@@ -1,69 +1,42 @@
-import { Injectable, Logger, OnModuleInit } from '@nestjs/common';
+import { Injectable, Logger, OnApplicationBootstrap } from '@nestjs/common';
 import { DappMessageActionType, DialectSdk } from '@dialectlabs/sdk';
 import {
-  AddTransformationsStep,
-  DefineDataSourceStep,
   DialectSdkNotification,
-  MonitorProps,
   Monitors,
   Pipelines,
-  ResourceId,
-  SourceData,
 } from '@dialectlabs/monitor';
 import { Solana } from '@dialectlabs/blockchain-sdk-solana';
-import { Duration, Interval } from 'luxon';
-import { allSettledWithErrorLogging } from './utils/error-handling-utils';
+import { Duration } from 'luxon';
 import { StdoutNotificationSink } from './utils/StdoutNotificationSink';
-import { getExampleUserData, UserData } from './example-data-source';
+import { ExampleDataSource, ExampleUserData } from './example-data-source';
 
 @Injectable()
-export class MonitoringService implements OnModuleInit {
+export class MonitoringService implements OnApplicationBootstrap {
   private readonly stdoutNotificationSink = new StdoutNotificationSink();
   private readonly logger = new Logger(MonitoringService.name);
 
   constructor(
     private readonly sdk: DialectSdk<Solana>,
+    private readonly dataSource: ExampleDataSource,
   ) {}
 
-  async onModuleInit() {
-    const monitor = this.createRealDataSourceMonitor();
+  async onApplicationBootstrap() {
+    this.logger.log(`Initializing monitoring service...`);
+    const monitor = this.createMonitor();
     monitor.start().catch(console.error);
+    this.logger.log(`Monitoring service initialized.`);
   }
 
-  createRealDataSourceMonitor(props?: MonitorProps) {
-    return this.createMonitor(
-      (monitorBuilder) => {
-        return monitorBuilder.poll(async (subscribers: ResourceId[]) => {
-          return this.pollData(subscribers);
-        }, Duration.fromObject({ minutes: 5 }));
-      }, // Polling interval for the above function.
-      props,
-    );
-  }
-
-  private async pollData(subscribers: ResourceId[]) {
-    const now = new Date();
-    const sourceData: SourceData<UserData>[] = [];
-    subscribers.map(async (subscriber) => {
-      const userData = await getExampleUserData(subscriber)
-      sourceData.push(...userData);
-    });
-    return sourceData;
-  }
-
-  createMonitor(
-    chooseDataSource: (
-      monitorBuilder: DefineDataSourceStep<UserData>,
-    ) => AddTransformationsStep<UserData>,
-    props?: MonitorProps,
-  ) {
-    const monitorBuilder = Monitors.builder({
+  createMonitor() {
+    const monitor = Monitors.builder({
+      subscribersCacheTTL: Duration.fromObject({ minutes: 5 }),
       sdk: this.sdk,
-      ...props,
-    });
-    const monitor = chooseDataSource(
-      monitorBuilder.defineDataSource<UserData>(),
-    )
+    })
+      .defineDataSource<ExampleUserData>()
+      .poll(
+        (subscribers) => this.dataSource.pollData(subscribers),
+        Duration.fromObject({ seconds: 5 }),
+      )
       .transform<number, number>({
         keys: ['value'],
         pipelines: [
@@ -73,7 +46,12 @@ export class MonitoringService implements OnModuleInit {
           }),
         ],
       })
-      .notify()
+      .notify({
+        // optional, but must be set if your dapp has at least one custom notification type
+        type: {
+          id: 'content_updates',
+        },
+      })
       .dialectSdk(
         ({ context: { origin } }) => {
           const notification: DialectSdkNotification = {
@@ -83,21 +61,21 @@ export class MonitoringService implements OnModuleInit {
               type: DappMessageActionType.LINK,
               links: [
                 {
-                  label:'View',
+                  label: 'View',
                   url: `https://www.google.com/search?q=0.15&oq=0.15`,
                 },
               ],
             },
           };
           this.logger.log(
-            `Sending notification to ${origin.resourceId}: ${JSON.stringify(
+            `Sending notification to ${origin.subscriber}: ${JSON.stringify(
               notification,
             )}`,
           );
           return notification;
         },
         // this.stdoutNotificationSink,
-        { dispatch: 'unicast', to: ({ origin }) => origin.resourceId },
+        { dispatch: 'unicast', to: ({ origin }) => origin.subscriber },
       )
       .also()
       .transform<number, number>({
@@ -109,7 +87,12 @@ export class MonitoringService implements OnModuleInit {
           }),
         ],
       })
-      .notify()
+      .notify({
+        // optional, but must be set if your dapp has at least one custom notification type
+        type: {
+          id: 'content_updates',
+        },
+      })
       .dialectSdk(
         ({ context: { origin } }) => {
           const notification: DialectSdkNotification = {
@@ -119,21 +102,21 @@ export class MonitoringService implements OnModuleInit {
               type: DappMessageActionType.LINK,
               links: [
                 {
-                  label:'View',
+                  label: 'View',
                   url: `https://www.google.com/search?q=0.85&oq=0.85`,
                 },
               ],
             },
           };
           this.logger.log(
-            `Sending notification to ${origin.resourceId}: ${JSON.stringify(
+            `Sending notification to ${origin.subscriber}: ${JSON.stringify(
               notification,
             )}`,
           );
           return notification;
         },
         // this.stdoutNotificationSink,
-        { dispatch: 'unicast', to: ({ origin }) => origin.resourceId },
+        { dispatch: 'unicast', to: ({ origin }) => origin.subscriber },
       )
       .also()
       .transform<number, number>({
@@ -145,7 +128,12 @@ export class MonitoringService implements OnModuleInit {
           }),
         ],
       })
-      .notify()
+      .notify({
+        // optional, must be set if your dapp has at least one custom notification type
+        type: {
+          id: 'content_updates',
+        },
+      })
       .dialectSdk(
         ({ context: { origin } }) => {
           const notification: DialectSdkNotification = {
@@ -155,21 +143,21 @@ export class MonitoringService implements OnModuleInit {
               type: DappMessageActionType.LINK,
               links: [
                 {
-                  label:'View',
+                  label: 'View',
                   url: `https://www.google.com/search?q=0.25&oq=0.25`,
                 },
               ],
             },
           };
           this.logger.log(
-            `Sending notification to ${origin.resourceId}: ${JSON.stringify(
+            `Sending notification to ${origin.subscriber}: ${JSON.stringify(
               notification,
             )}`,
           );
           return notification;
         },
         // this.stdoutNotificationSink,
-        { dispatch: 'unicast', to: ({ origin }) => origin.resourceId },
+        { dispatch: 'unicast', to: ({ origin }) => origin.subscriber },
       )
       .also()
       .transform<number, number>({
@@ -181,7 +169,12 @@ export class MonitoringService implements OnModuleInit {
           }),
         ],
       })
-      .notify()
+      .notify({
+        // optional, but must be set if your dapp has at least one custom notification type
+        type: {
+          id: 'content_updates',
+        },
+      })
       .dialectSdk(
         ({ context: { origin } }) => {
           const notification: DialectSdkNotification = {
@@ -191,21 +184,21 @@ export class MonitoringService implements OnModuleInit {
               type: DappMessageActionType.LINK,
               links: [
                 {
-                  label:'View',
+                  label: 'View',
                   url: `https://www.google.com/search?q=0.75&oq=0.75`,
                 },
               ],
             },
           };
           this.logger.log(
-            `Sending notification to ${origin.resourceId}: ${JSON.stringify(
+            `Sending notification to ${origin.subscriber}: ${JSON.stringify(
               notification,
             )}`,
           );
           return notification;
         },
         // this.stdoutNotificationSink,
-        { dispatch: 'unicast', to: ({ origin }) => origin.resourceId },
+        { dispatch: 'unicast', to: ({ origin }) => origin.subscriber },
       )
       //
       // FINISH
