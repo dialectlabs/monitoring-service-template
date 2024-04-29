@@ -21,7 +21,7 @@
     "@dialectlabs/blockchain-sdk-aptos": "^1.0.3",
     "@dialectlabs/blockchain-sdk-solana": "^1.0.1",
     "@dialectlabs/monitor": "^3.4.0",
-    "@dialectlabs/sdk": "^1.4.0",
+    "@dialectlabs/sdk": "^1.9.1",
     "@nestjs/axios": "^0.1.0",
     "@nestjs/common": "^9.0.0",
     "@nestjs/config": "^2.2.0",
