@@ -21,7 +21,7 @@
   "dependencies": {
     "@dialectlabs/blockchain-sdk-solana": "^1.2.0",
     "@dialectlabs/monitor": "^3.4.2",
-    "@dialectlabs/sdk": "^1.9.1",
+    "@dialectlabs/sdk": "^1.9.3",
     "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/config": "^3.2.2",
